@@ -11,6 +11,12 @@ const contactList = [
 ]
 
 exports.getContacts = (req, res) => {
+    if (!contactList.length) {
+        return res.status(400).json({
+            success: false,
+            message: 'Contact list empty'
+        })
+    }
     res.status(200).json({
         success: true,
         message: 'Successfully get all contact',
