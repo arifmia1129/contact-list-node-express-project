@@ -55,57 +55,79 @@ exports.createContact = (req, res) => {
 
 exports.getContact = (req, res) => {
     const { contactId } = req.params;
-    for (const contact of contactList) {
-        if (Number(contact.id) === Number(contactId)) {
-            return res.status(200).json({
-                success: true,
-                message: 'Successfully found contact',
-                contact: contact
-            })
 
-        }
+    const contact = contactList.find(c => c.id == contactId);
+
+    if (!contact) {
+        return res.status(404).json({
+            success: false,
+            message: 'Contact not found by given id'
+        })
     }
-    res.status(404).json({
-        success: false,
-        message: 'Contact not found by given id'
+    res.status(200).json({
+        success: true,
+        message: 'Successfully found contact',
+        contact: contact
     })
+
 }
 
 
 exports.updateContact = (req, res) => {
     const { contactId } = req.params;
-    for (const contact of contactList) {
-        if (Number(contact.id) === Number(contactId)) {
 
-            if (req.body.name || req.body.phone || req.body.email) {
-                if (req.body.name) {
-                    contact.name = req.body.name;
-                }
-                if (req.body.phone) {
-                    contact.email = req.body.phone;
-                }
-                if (req.body.email) {
-                    contact.email = req.body.email;
-                }
+    const contact = contactList.find(c => c.id == contactId);
 
-                return res.status(200).json({
-                    success: true,
-                    message: 'Successfully update contact',
-                    contact: contact
-                })
-
-
-            }
-
-            return res.status(400).json({
-                success: false,
-                message: "Can't found update property. Include update properly and value in body"
-            })
-
-        }
+    if (!contact) {
+        res.status(404).json({
+            success: false,
+            message: 'Contact not found by given id'
+        })
     }
-    res.status(404).json({
+
+    if (req.body.name || req.body.phone || req.body.email) {
+        if (req.body.name) {
+            contact.name = req.body.name;
+        }
+        if (req.body.phone) {
+            contact.email = req.body.phone;
+        }
+        if (req.body.email) {
+            contact.email = req.body.email;
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: 'Successfully update contact',
+            contact: contact
+        })
+
+
+    }
+
+    res.status(400).json({
         success: false,
-        message: 'Contact not found by given id'
+        message: "Can't found update property. Include update properly and value in body"
+    })
+}
+
+
+exports.deleteContact = (req, res) => {
+    const { contactId } = req.params;
+
+    const contact = contactList.find(c => c.id == contactId);
+
+    if (!contact) {
+        res.status(404).json({
+            success: false,
+            message: 'Contact not found by given id'
+        })
+    }
+    const filteredContact = contactList.filter(c => c.id != contactId);
+
+    res.status(200).json({
+        success: true,
+        message: 'Successfully delete contact',
+        contacts: filteredContact
     })
 }

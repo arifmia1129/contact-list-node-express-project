@@ -10,5 +10,6 @@ router.route('/')
 router.route('/:contactId')
     .get(contactController.getContact)
     .put(contactController.updateContact)
+    .delete(contactController.deleteContact)
 
 module.exports = router;
