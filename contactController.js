@@ -70,3 +70,42 @@ exports.getContact = (req, res) => {
         message: 'Contact not found by given id'
     })
 }
+
+
+exports.updateContact = (req, res) => {
+    const { contactId } = req.params;
+    for (const contact of contactList) {
+        if (Number(contact.id) === Number(contactId)) {
+
+            if (req.body.name || req.body.phone || req.body.email) {
+                if (req.body.name) {
+                    contact.name = req.body.name;
+                }
+                if (req.body.phone) {
+                    contact.email = req.body.phone;
+                }
+                if (req.body.email) {
+                    contact.email = req.body.email;
+                }
+
+                return res.status(200).json({
+                    success: true,
+                    message: 'Successfully update contact',
+                    contact: contact
+                })
+
+
+            }
+
+            return res.status(400).json({
+                success: false,
+                message: "Can't found update property. Include update properly and value in body"
+            })
+
+        }
+    }
+    res.status(404).json({
+        success: false,
+        message: 'Contact not found by given id'
+    })
+}

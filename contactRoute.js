@@ -9,5 +9,6 @@ router.route('/')
 
 router.route('/:contactId')
     .get(contactController.getContact)
+    .put(contactController.updateContact)
 
 module.exports = router;
