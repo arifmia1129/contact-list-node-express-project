@@ -6,4 +6,8 @@ router.route('/')
     .get(contactController.getContacts)
     .post(contactController.createContact)
 
+
+router.route('/:contactId')
+    .get(contactController.getContact)
+
 module.exports = router;

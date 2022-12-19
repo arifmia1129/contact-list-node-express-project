@@ -51,3 +51,22 @@ exports.createContact = (req, res) => {
         contacts: contactList
     })
 }
+
+
+exports.getContact = (req, res) => {
+    const { contactId } = req.params;
+    for (const contact of contactList) {
+        if (Number(contact.id) === Number(contactId)) {
+            return res.status(200).json({
+                success: true,
+                message: 'Successfully found contact',
+                contact: contact
+            })
+
+        }
+    }
+    res.status(404).json({
+        success: false,
+        message: 'Contact not found by given id'
+    })
+}
